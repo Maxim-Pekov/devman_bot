@@ -7,6 +7,7 @@ from time import sleep
 
 load_dotenv()
 DEVMAN_TOKEN = os.getenv('DEVMAN_TOKEN')
+TG_BOT = os.getenv('TG_BOT')
 TIMEOUT = 10
 
 
