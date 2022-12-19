@@ -15,6 +15,7 @@ TOKEN_TG = os.getenv('TOKEN_TG')
 TIMEOUT = 100
 LONG_POLLING_URL = 'https://dvmn.org/api/long_polling/'
 
+
 def main():
     load_dotenv()
 
@@ -36,9 +37,9 @@ def main():
                     lesson_title = attempt.get('lesson_title')
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
+                send_message(lesson_title, lesson_url, confirmation_attempt)
             else:
                 params['timestamp'] = long_polling_response.get('timestamp_to_request')
-            send_message(lesson_title, lesson_url, confirmation_attempt)
         except requests.exceptions.ReadTimeout:
             logger.info('Сервер не отвечает')
         except requests.exceptions.ConnectionError:
