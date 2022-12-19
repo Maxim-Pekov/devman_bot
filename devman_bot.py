@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def send_message(title, lesson_url, confirmation_attempt):
-    logger.info(f'Функция send_message с параметрами title={title}, lesson_url={lesson_url}, confirmation_attempt={confirmation_attempt}')
+    logger.info(f'Функция send_message с параметрами title={title},\n lesson_url={lesson_url}, confirmation_attempt={confirmation_attempt}')
 
     if not confirmation_attempt:
         bot_messege = f'Ваша работа "{title}" проверена!!\n\n Преподователю все понравилось можно приступить к ' \

@@ -11,9 +11,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 DEVMAN_TOKEN = os.getenv('DEVMAN_TOKEN')
-TOKEN_TG = os.getenv('TOKEN_TG')
-TIMEOUT = 100
 LONG_POLLING_URL = 'https://dvmn.org/api/long_polling/'
+TIMEOUT = 100
 
 
 def main():
@@ -41,9 +40,9 @@ def main():
             else:
                 params['timestamp'] = long_polling_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
-            logger.info('Сервер не отвечает')
+            logger.info('Сервер не отвечает.')
         except requests.exceptions.ConnectionError:
-            logger.info('Отсутствует интернет')
+            logger.info('Отсутствует интернет.')
             sleep(TIMEOUT)
 
 
