@@ -1,14 +1,19 @@
-import requests, os
-from devman_bot import reply_message
-from pprint import pprint
+import requests, os, logging
 from dotenv import load_dotenv
 from time import sleep
 
+from devman_bot import send_message
+
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+
+logger = logging.getLogger(__name__)
 
 DEVMAN_TOKEN = os.getenv('DEVMAN_TOKEN')
 TOKEN_TG = os.getenv('TOKEN_TG')
-TIMEOUT = 10
-
+TIMEOUT = 100
+LONG_POLLING_URL = 'https://dvmn.org/api/long_polling/'
 
 def main():
     load_dotenv()
@@ -18,7 +23,7 @@ def main():
             params = {
                 'timestamp': '',
             }
-            long_polling_url = 'https://dvmn.org/api/long_polling/'
+            long_polling_url = LONG_POLLING_URL
             response = requests.get(long_polling_url, headers={
                 'Authorization': f'Token {DEVMAN_TOKEN}'
             }, timeout=TIMEOUT, params=params)
@@ -33,16 +38,12 @@ def main():
                     confirmation_attempt = attempt.get('is_negative')
             else:
                 params['timestamp'] = long_polling_response.get('timestamp_to_request')
-            pprint(params['timestamp'])
-            pprint(response.json())
-            reply_message(lesson_title, lesson_url, confirmation_attempt)
+            send_message(lesson_title, lesson_url, confirmation_attempt)
         except requests.exceptions.ReadTimeout:
-            print(111)
-            pass
+            logger.info('Сервер не отвечает')
         except requests.exceptions.ConnectionError:
-            print(222)
+            logger.info('Отсутствует интернет')
             sleep(TIMEOUT)
-            pass
 
 
 if __name__ == '__main__':
