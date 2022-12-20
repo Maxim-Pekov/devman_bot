@@ -30,17 +30,17 @@ def main():
             }, timeout=TIMEOUT, params=params)
             response.raise_for_status()
             logger.info(response.json())
-            long_polling_response = response.json()
-            if long_polling_response.get('status') == 'found':
-                params['timestamp'] = long_polling_response.get('last_attempt_timestamp')
-                new_attempts = long_polling_response.get('new_attempts')
+            json_response = response.json()
+            if json_response.get('status') == 'found':
+                params['timestamp'] = json_response.get('last_attempt_timestamp')
+                new_attempts = json_response.get('new_attempts')
                 for attempt in new_attempts:
                     lesson_title = attempt.get('lesson_title')
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
                 send_message(lesson_title, lesson_url, confirmation_attempt, TOKEN_TG, CHAT_ID)
             else:
-                params['timestamp'] = long_polling_response.get('timestamp_to_request')
+                params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
             logger.info('Сервер не отвечает.')
         except requests.exceptions.ConnectionError:
