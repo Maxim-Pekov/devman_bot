@@ -5,19 +5,20 @@ import time
 from devman_bot import send_message
 
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
-
 logger = logging.getLogger(__name__)
 
 
 def main():
     load_dotenv()
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
+                        level=logging.INFO)
+
     DEVMAN_TOKEN = os.getenv('DEVMAN_TOKEN')
     LONG_POLLING_URL = 'https://dvmn.org/api/long_polling/'
     TIMEOUT = 10
     TOKEN_TG = os.getenv('TOKEN_TG')
     CHAT_ID = os.getenv('CHAT_ID')
+
     while True:
         try:
             params = {
