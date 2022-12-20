@@ -38,7 +38,7 @@ def main():
                     lesson_title = attempt.get('lesson_title')
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
-                send_message(lesson_title, lesson_url, confirmation_attempt, TOKEN_TG, CHAT_ID)
+                    send_message(lesson_title, lesson_url, confirmation_attempt, TOKEN_TG, CHAT_ID)
             else:
                 params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
