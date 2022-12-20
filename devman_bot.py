@@ -5,16 +5,14 @@ from telegram import Bot
 from telegram.utils.request import Request
 
 
-load_dotenv()
-TOKEN_TG = os.getenv('TOKEN_TG')
-CHAT_ID = os.getenv('CHAT_ID')
+
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 logger = logging.getLogger(__name__)
 
 
-def send_message(title, lesson_url, confirmation_attempt):
+def send_message(title, lesson_url, confirmation_attempt, TOKEN_TG, CHAT_ID):
     logger.info(f'Функция send_message с параметрами title={title},\n lesson_url={lesson_url}, confirmation_attempt={confirmation_attempt}')
 
     if not confirmation_attempt:
