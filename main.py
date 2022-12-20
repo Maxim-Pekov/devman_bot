@@ -8,6 +8,15 @@ from devman_bot import send_message
 logger = logging.getLogger(__name__)
 
 
+def create_message(title, lesson_url, confirmation_attempt):
+    if not confirmation_attempt:
+        bot_message = f'Ваша работа "{title}" проверена!!\n\n Преподователю все понравилось можно приступить к ' \
+                      f'следующему уроку\n\n {lesson_url}'
+    else:
+        bot_message = f'Ваша работа "{title}" проверена!!\n\nК сожалению, в работе нашлись ошибки.\n\n {lesson_url}'
+    return bot_message
+
+
 def main():
     load_dotenv()
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
@@ -38,7 +47,8 @@ def main():
                     lesson_title = attempt.get('lesson_title')
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
-                    send_message(lesson_title, lesson_url, confirmation_attempt, TOKEN_TG, CHAT_ID)
+                    message = create_message(lesson_title, lesson_url, confirmation_attempt)
+                    send_message(message, TOKEN_TG, CHAT_ID)
             else:
                 params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
