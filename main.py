@@ -1,9 +1,11 @@
 import time
+from time import sleep
+from telegram import Bot
 import requests, os, logging
 from dotenv import load_dotenv
-from time import sleep
-from devman_bot import send_message
 
+
+LONG_POLLING_URL = 'https://dvmn.org/api/long_polling/'
 
 logger = logging.getLogger(__name__)
 
@@ -22,11 +24,12 @@ def main():
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
                         level=logging.WARNING)
 
-    DEVMAN_TOKEN = os.getenv('DEVMAN_TOKEN')
-    LONG_POLLING_URL = 'https://dvmn.org/api/long_polling/'
-    TIMEOUT = 10
-    TOKEN_TG = os.getenv('TOKEN_TG')
-    CHAT_ID = os.getenv('CHAT_ID')
+    timeout = 100
+    devman_token = os.getenv('DEVMAN_TOKEN')
+    tg_token = os.getenv('TOKEN_TG')
+    chat_id = os.getenv('CHAT_ID')
+
+    bot = Bot(token=tg_token)
 
     while True:
         try:
@@ -35,8 +38,8 @@ def main():
             }
             long_polling_url = LONG_POLLING_URL
             response = requests.get(long_polling_url, headers={
-                'Authorization': f'Token {DEVMAN_TOKEN}'
-            }, timeout=TIMEOUT, params=params)
+                'Authorization': f'Token {devman_token}'
+            }, timeout=timeout, params=params)
             response.raise_for_status()
             logger.info(f'Данные словаря из response {response.json()}')
             json_response = response.json()
@@ -48,14 +51,17 @@ def main():
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
                     message = create_message(lesson_title, lesson_url, confirmation_attempt)
-                    send_message(message, TOKEN_TG, CHAT_ID)
+                    bot.send_message(
+                        chat_id=chat_id,
+                        text=message,
+                    )
             else:
                 params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
             logger.warning('Сервер не отвечает.')
         except requests.exceptions.ConnectionError:
             logger.warning('Отсутствует интернет.')
-            sleep(TIMEOUT)
+            sleep(timeout)
 
 
 if __name__ == '__main__':
