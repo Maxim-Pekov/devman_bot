@@ -34,7 +34,7 @@ def main():
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
                         level=logging.INFO)
 
-    timeout = 2
+    timeout = 4
     devman_token = os.getenv('DEVMAN_TOKEN')
     tg_token = os.getenv('TOKEN_TG')
     chat_id = os.getenv('CHAT_ID')
@@ -47,7 +47,7 @@ def main():
 
     while True:
         try:
-            logger.info('Бот запущен')
+            logger.warning('Бот запущен')
             params = {
                 'timestamp': time.time(),
             }
@@ -74,6 +74,7 @@ def main():
                 params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
             logger.warning('Сервер не отвечает.')
+            sleep(timeout)
         except requests.exceptions.ConnectionError:
             logger.warning('Отсутствует интернет.')
             sleep(timeout)
