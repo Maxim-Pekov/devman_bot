@@ -42,11 +42,12 @@ def main():
     bot = Bot(token=tg_token)
 
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.WARNING)
+    logger.setLevel(logging.WARNING, logging.basicConfig(format='%(asctime)s - %(pathname)s - %(filename)s - %(message)s'))
     logger.addHandler(TelegramLogsHandler(bot, chat_id))
 
     while True:
         try:
+            0/0
             logger.warning('Бот запущен')
             params = {
                 'timestamp': time.time(),
@@ -78,6 +79,8 @@ def main():
         except requests.exceptions.ConnectionError:
             logger.warning('Отсутствует интернет.')
             sleep(timeout)
+        except Exception:
+            logger.exception()
 
 
 if __name__ == '__main__':
