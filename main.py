@@ -66,8 +66,10 @@ def main():
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
                     message = create_message(lesson_title, lesson_url, confirmation_attempt)
-                    а = 10 / 0
-                    print(а)
+                    bot.send_message(
+                        chat_id=chat_id,
+                        text=message,
+                    )
             else:
                 params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
