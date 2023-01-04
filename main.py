@@ -43,7 +43,7 @@ def main():
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.WARNING)
-    logger.addHandler(TelegramLogsHandler(bot))
+    logger.addHandler(TelegramLogsHandler(bot, chat_id))
 
     while True:
         try:
