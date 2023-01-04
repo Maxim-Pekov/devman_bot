@@ -7,7 +7,17 @@ from dotenv import load_dotenv
 
 LONG_POLLING_URL = 'https://dvmn.org/api/long_polling/'
 
-logger = logging.getLogger(__name__)
+
+class TelegramLogsHandler(logging.Handler):
+
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def create_message(title, lesson_url, confirmation_attempt):
@@ -31,9 +41,13 @@ def main():
 
     bot = Bot(token=tg_token)
 
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.WARNING)
+    logger.addHandler(TelegramLogsHandler(bot))
+
     while True:
         try:
-            logger.info('Бот запущен')
+            logger.warning('Бот запущен')
             params = {
                 'timestamp': time.time(),
             }
@@ -59,17 +73,9 @@ def main():
             else:
                 params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
-            server_not_answer_message = logger.warning('Сервер не отвечает.')
-            bot.send_message(
-                chat_id=chat_id,
-                text=server_not_answer_message,
-            )
+            logger.warning('Сервер не отвечает.')
         except requests.exceptions.ConnectionError:
-            connection_error_message = logger.warning('Отсутствует интернет.')
-            bot.send_message(
-                chat_id=chat_id,
-                text=connection_error_message,
-            )
+            logger.warning('Отсутствует интернет.')
             sleep(timeout)
 
 
