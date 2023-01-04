@@ -47,7 +47,7 @@ def main():
 
     while True:
         try:
-            0/0
+            print(10/0)
             logger.warning('Бот запущен')
             params = {
                 'timestamp': time.time(),
