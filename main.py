@@ -58,9 +58,17 @@ def main():
             else:
                 params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
-            logger.warning('Сервер не отвечает.')
+            server_not_answer_message = logger.warning('Сервер не отвечает.')
+            bot.send_message(
+                chat_id=chat_id,
+                text=server_not_answer_message,
+            )
         except requests.exceptions.ConnectionError:
-            logger.warning('Отсутствует интернет.')
+            connection_error_message = logger.warning('Отсутствует интернет.')
+            bot.send_message(
+                chat_id=chat_id,
+                text=connection_error_message,
+            )
             sleep(timeout)
 
 
