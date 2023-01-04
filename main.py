@@ -42,7 +42,7 @@ def main():
     bot = Bot(token=tg_token)
 
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.WARNING, logging.basicConfig(format='%(asctime)s - %(pathname)s - %(filename)s - %(message)s'))
+    logger.setLevel(logging.WARNING)
     logger.addHandler(TelegramLogsHandler(bot, chat_id))
 
     while True:
