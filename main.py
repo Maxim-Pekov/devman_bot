@@ -34,7 +34,7 @@ def main():
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
                         level=logging.INFO)
 
-    timeout = 100
+    timeout = 2
     devman_token = os.getenv('DEVMAN_TOKEN')
     tg_token = os.getenv('TOKEN_TG')
     chat_id = os.getenv('CHAT_ID')
@@ -47,7 +47,7 @@ def main():
 
     while True:
         try:
-            logger.warning('Бот запущен')
+            logger.info('Бот запущен')
             params = {
                 'timestamp': time.time(),
             }
