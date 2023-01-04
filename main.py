@@ -47,7 +47,6 @@ def main():
 
     while True:
         try:
-            print(10/0)
             logger.warning('Бот запущен')
             params = {
                 'timestamp': time.time(),
@@ -67,10 +66,8 @@ def main():
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
                     message = create_message(lesson_title, lesson_url, confirmation_attempt)
-                    bot.send_message(
-                        chat_id=chat_id,
-                        text=message,
-                    )
+                    а = 10 / 0
+                    print(а)
             else:
                 params['timestamp'] = json_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
@@ -80,6 +77,7 @@ def main():
             logger.warning('Отсутствует интернет.')
             sleep(timeout)
         except Exception:
+            logger.warning('Бот упал с ошибкой.')
             logger.exception()
 
 
