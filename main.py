@@ -43,47 +43,44 @@ def main():
     exception_logger.setLevel(logging.ERROR)
     exception_logger.addHandler(TelegramLogsHandler(tg_token, chat_id))
 
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.WARNING)
+    logger.addHandler(TelegramLogsHandler(tg_token, chat_id))
+
     while True:
         try:
             bot = Bot(token=tg_token)
-
-            logger = logging.getLogger(__name__)
-            logger.setLevel(logging.WARNING)
-            logger.addHandler(TelegramLogsHandler(tg_token, chat_id))
-
-            while True:
-                try:
-                    logger.warning('Бот запущен')
-                    params = {
-                        'timestamp': time.time(),
-                    }
-                    long_polling_url = LONG_POLLING_URL
-                    response = requests.get(long_polling_url, headers={
-                        'Authorization': f'Token {devman_token}'
-                    }, timeout=timeout, params=params)
-                    response.raise_for_status()
-                    logger.info(f'Данные словаря из response {response.json()}')
-                    json_response = response.json()
-                    if json_response.get('status') == 'found':
-                        params['timestamp'] = json_response.get('last_attempt_timestamp')
-                        new_attempts = json_response.get('new_attempts')
-                        for attempt in new_attempts:
-                            lesson_title = attempt.get('lesson_title')
-                            lesson_url = attempt.get('lesson_url')
-                            confirmation_attempt = attempt.get('is_negative')
-                            message = create_message(lesson_title, lesson_url, confirmation_attempt)
-                            bot.send_message(
-                                chat_id=chat_id,
-                                text=message,
-                            )
-                    else:
-                        params['timestamp'] = json_response.get('timestamp_to_request')
-                except requests.exceptions.ReadTimeout:
-                    logger.warning('Сервер не отвечает.')
-                    sleep(timeout)
-                except requests.exceptions.ConnectionError:
-                    logger.warning('Отсутствует интернет.')
-                    sleep(timeout)
+            logging.info('Бот запущен')
+            params = {
+                'timestamp': time.time(),
+            }
+            long_polling_url = LONG_POLLING_URL
+            response = requests.get(long_polling_url, headers={
+                'Authorization': f'Token {devman_token}'
+            }, timeout=timeout, params=params)
+            response.raise_for_status()
+            logging.info(f'Данные словаря из response {response.json()}')
+            json_response = response.json()
+            if json_response.get('status') == 'found':
+                params['timestamp'] = json_response.get('last_attempt_timestamp')
+                new_attempts = json_response.get('new_attempts')
+                for attempt in new_attempts:
+                    lesson_title = attempt.get('lesson_title')
+                    lesson_url = attempt.get('lesson_url')
+                    confirmation_attempt = attempt.get('is_negative')
+                    message = create_message(lesson_title, lesson_url, confirmation_attempt)
+                    bot.send_message(
+                        chat_id=chat_id,
+                        text=message,
+                    )
+            else:
+                params['timestamp'] = json_response.get('timestamp_to_request')
+        except requests.exceptions.ReadTimeout:
+            logger.warning('Сервер не отвечает.')
+            sleep(timeout)
+        except requests.exceptions.ConnectionError:
+            logger.warning('Отсутствует интернет.')
+            sleep(timeout)
         except Exception:
             exception_logger.exception("Бот упал с ошибкой")
             sleep(timeout)
