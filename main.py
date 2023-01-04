@@ -22,7 +22,7 @@ def create_message(title, lesson_url, confirmation_attempt):
 def main():
     load_dotenv()
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
-                        level=logging.WARNING)
+                        level=logging.INFO)
 
     timeout = 100
     devman_token = os.getenv('DEVMAN_TOKEN')
@@ -33,6 +33,7 @@ def main():
 
     while True:
         try:
+            logger.info('Бот запущен')
             params = {
                 'timestamp': time.time(),
             }
