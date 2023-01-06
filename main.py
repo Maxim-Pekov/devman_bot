@@ -7,6 +7,9 @@ from dotenv import load_dotenv
 
 LONG_POLLING_URL = 'https://dvmn.org/api/long_polling/'
 
+logger = logging.getLogger(__name__)
+exception_logger = logging.getLogger('get_all_exception')
+
 
 class TelegramLogsHandler(logging.Handler):
 
@@ -39,11 +42,9 @@ def main():
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
                         level=logging.INFO)
 
-    exception_logger = logging.getLogger('get_all_exception')
     exception_logger.setLevel(logging.ERROR)
     exception_logger.addHandler(TelegramLogsHandler(tg_token, chat_id))
 
-    logger = logging.getLogger(__name__)
     logger.setLevel(logging.WARNING)
     logger.addHandler(TelegramLogsHandler(tg_token, chat_id))
 
