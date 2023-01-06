@@ -54,8 +54,7 @@ def main():
             params = {
                 'timestamp': time.time(),
             }
-            long_polling_url = LONG_POLLING_URL
-            response = requests.get(long_polling_url, headers={
+            response = requests.get(LONG_POLLING_URL, headers={
                 'Authorization': f'Token {devman_token}'
             }, timeout=timeout, params=params)
             response.raise_for_status()
