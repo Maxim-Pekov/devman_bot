@@ -33,7 +33,7 @@ def main():
     load_dotenv()
     devman_token = os.getenv('DEVMAN_TOKEN')
     tg_token = os.getenv('TOKEN_TG')
-    chat_id = os.getenv('CHAT_ID')
+    chat_id = os.getenv('TG_CHAT_ID')
     timeout = 120
 
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',

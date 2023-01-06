@@ -58,7 +58,7 @@ pip install -r requirements.txt
 ```python
 DEVMAN_TOKEN='33222728d3925fc31t3e955555wj8206k95h1l8'
 TOKEN_TG='559475638:AQweRTZdfKiJnm0AitjQ196u_n6GHjSDFG0'
-CHAT_ID='741414141'
+TG_CHAT_ID='741414141'
 ```
 ---
 
