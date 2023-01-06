@@ -59,10 +59,10 @@ def main():
             }, timeout=timeout, params=params)
             response.raise_for_status()
             logging.info(f'Данные словаря из response {response.json()}')
-            json_response = response.json()
-            if json_response.get('status') == 'found':
-                params['timestamp'] = json_response.get('last_attempt_timestamp')
-                new_attempts = json_response.get('new_attempts')
+            response_dict = response.json()
+            if response_dict.get('status') == 'found':
+                params['timestamp'] = response_dict.get('last_attempt_timestamp')
+                new_attempts = response_dict.get('new_attempts')
                 for attempt in new_attempts:
                     lesson_title = attempt.get('lesson_title')
                     lesson_url = attempt.get('lesson_url')
@@ -73,7 +73,7 @@ def main():
                         text=message,
                     )
             else:
-                params['timestamp'] = json_response.get('timestamp_to_request')
+                params['timestamp'] = response_dict.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
             logger.warning('Сервер не отвечает.')
             sleep(timeout)
