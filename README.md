@@ -1,4 +1,4 @@
-# dewman_bot
+# devman_bot
 
 Этот проект нужен для оповещения о проверенных работах на учебном сервисе [https://dvmn.org](https://dvmn.org). 
 
@@ -27,7 +27,7 @@ python3 main.py
 1. Установить
 
 ```python
-git clone https://github.com/Maxim-Pekov/dewman_bot.git
+git clone https://github.com/Maxim-Pekov/devman_bot.git
 ```
 
 2. Создайте виртуальное окружение:
@@ -44,7 +44,7 @@ python -m venv venv
 source ./.venv/bin/activate    # for Linux
 ```
 
-4. Перейдите в `dewman_bot` директорию.
+4. Перейдите в `devman_bot` директорию.
 
 3. Установите зависимости командой ниже:
 ```python
