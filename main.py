@@ -1,7 +1,9 @@
 import time
+import requests
+import os
+import logging
 from time import sleep
 from telegram import Bot
-import requests, os, logging
 from dotenv import load_dotenv
 
 
