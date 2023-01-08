@@ -32,7 +32,8 @@ def main():
     chat_id = os.getenv('TG_CHAT_ID')
     timeout = 120
 
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - '
+                               '%(message)s', datefmt='%d-%m-%Y %I:%M:%S %p',
                         level=logging.INFO)
 
     exception_logger.setLevel(logging.ERROR)
@@ -62,10 +63,14 @@ def main():
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
                     if not confirmation_attempt:
-                        bot_message = f'Ваша работа "{lesson_title}" проверена!!\n\n Преподователю все понравилось можно приступить к ' \
+                        bot_message = f'Ваша работа "{lesson_title}" ' \
+                                      f'проверена!!\n\n Преподователю все ' \
+                                      f'понравилось можно приступить к ' \
                                       f'следующему уроку\n\n {lesson_url}'
                     else:
-                        bot_message = f'Ваша работа "{lesson_title}" проверена!!\n\nК сожалению, в работе нашлись ошибки.\n\n {lesson_url}'
+                        bot_message = f'Ваша работа "{lesson_title}" ' \
+                                      f'проверена!!\n\nК сожалению, в работе ' \
+                                      f'нашлись ошибки.\n\n {lesson_url}'
                     bot.send_message(
                         chat_id=chat_id,
                         text=bot_message,
