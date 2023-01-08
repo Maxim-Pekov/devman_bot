@@ -23,15 +23,6 @@ class TelegramLogsHandler(logging.Handler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-def create_message(title, lesson_url, confirmation_attempt):
-    if not confirmation_attempt:
-        bot_message = f'Ваша работа "{title}" проверена!!\n\n Преподователю все понравилось можно приступить к ' \
-                      f'следующему уроку\n\n {lesson_url}'
-    else:
-        bot_message = f'Ваша работа "{title}" проверена!!\n\nК сожалению, в работе нашлись ошибки.\n\n {lesson_url}'
-    return bot_message
-
-
 def main():
     load_dotenv()
     devman_token = os.getenv('DEVMAN_TOKEN')
@@ -68,10 +59,14 @@ def main():
                     lesson_title = attempt.get('lesson_title')
                     lesson_url = attempt.get('lesson_url')
                     confirmation_attempt = attempt.get('is_negative')
-                    message = create_message(lesson_title, lesson_url, confirmation_attempt)
+                    if not confirmation_attempt:
+                        bot_message = f'Ваша работа "{lesson_title}" проверена!!\n\n Преподователю все понравилось можно приступить к ' \
+                                      f'следующему уроку\n\n {lesson_url}'
+                    else:
+                        bot_message = f'Ваша работа "{lesson_title}" проверена!!\n\nК сожалению, в работе нашлись ошибки.\n\n {lesson_url}'
                     bot.send_message(
                         chat_id=chat_id,
-                        text=message,
+                        text=bot_message,
                     )
             else:
                 params['timestamp'] = info_review.get('timestamp_to_request')
