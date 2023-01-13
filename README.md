@@ -20,6 +20,13 @@
 python3 main.py
 ```
 
+2. Так же можно скрипт запустить в докер контейнере (предварительно нужно 
+   создать контейнер или скачать его из репозитория), командой:
+
+```python
+sudo docker run -d devman_bot:v1
+```
+
 ## Установка
 
 Используйте данную инструкцию по установке этого скрипта
@@ -44,22 +51,42 @@ python -m venv venv
 source ./.venv/bin/activate    # for Linux
 ```
 
-4. Перейдите в `devman_bot` директорию.
-
-3. Установите зависимости командой ниже:
+4. Установите зависимости командой ниже:
 ```python
-pip install -r requirements.txt
+pip install -r devman_bot/requirements.txt
 ```
 
-4. Создайте файл с названием `.env`
+5. Создайте файл с названием `.env`
 
-5. Запишите в данном файле, ваш API токен с сайта DEVMAN, телеграмм токен вашего бота и номер вашего чата с ботом в формате 
+6. Запишите в данном файле, ваш API токен с сайта DEVMAN, телеграмм токен 
+   вашего бота и номер вашего чата с ботом в формате 
    как в примере ниже.
 ```python
-DEVMAN_TOKEN='33222728d3925fc31t3e955555wj8206k95h1l8'
-TOKEN_TG='559475638:AQweRTZdfKiJnm0AitjQ196u_n6GHjSDFG0'
-TG_CHAT_ID='741414141'
+DEVMAN_TOKEN='33222728d3925fc31t3e955555wj8206k95h111'
+TOKEN_TG='559475638:AQweRTZdfKiJnm0AitjQ196u_n6GHjSD000'
+TG_CHAT_ID='741414001'
 ```
+7. Для создания контейнера нужно установить предварительно докер, 
+   воспользуйтесь скриптом ниже для установки docker для ОС Ubuntu:
+
+```python
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+```
+
+8. Что бы создать контейнер воспользуйтесь командами:
+
+```python
+sudo docker build -t devman_bot:v1 devman_bot/
+```
+
+9. Если вы хотите скачать уже готовый контейнер с ботом, то воспользуйтесь 
+   командой:
+
+```python
+docker pull fenixx/devman_bot
+```
+
 ---
 
 ## About me
