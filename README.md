@@ -84,7 +84,17 @@ sudo docker build -t devman_bot:v1 devman_bot/
    командой:
 
 ```python
-docker pull fenixx/devman_bot
+docker pull fenixx/devman_bot:v1
+```
+
+10. При запуске контейнера таким способо нужно передать свои переменные 
+    окружения:
+
+```python
+sudo docker run -d --restart always 
+-e DEVMAN_TOKEN='33811728b3925fac31e3f92d7b9fc00000000' 
+-e TOKEN_TG='5555537785:AAGfRtZdfDiWQY0AmeuA196u_z6FIg00000' 
+-e TG_CHAT_ID='741200000' fenixx/devman_bot:v1
 ```
 
 ---
