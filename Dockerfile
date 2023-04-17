@@ -1,8 +1,7 @@
-FROM ubuntu:latest
-MAINTAINER Maxim Pekov 'Max.Pekov@gmail.com'
-RUN apt-get update -qy
-RUN apt-get install -qy python3.10 python3-pip python3.10-dev
-COPY . /bot
-WORKDIR /bot
+FROM python:3
+LABEL org.opencontainers.image.authors="Max.Pekov@gmail.com"
+WORKDIR /devman_bot
+COPY requirements.txt .
 RUN pip install -r requirements.txt
+COPY . .
 CMD ["python3","main.py"]

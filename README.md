@@ -77,24 +77,24 @@ sudo sh get-docker.sh
 8. Что бы создать контейнер воспользуйтесь командами:
 
 ```python
-sudo docker build -t devman_bot:v1 devman_bot/
+sudo docker build -t devman_bot:v2 devman_bot/
 ```
 
 9. Если вы хотите скачать уже готовый контейнер с ботом, то воспользуйтесь 
    командой:
 
 ```python
-docker pull fenixx/devman_bot:v1
+docker pull fenixx/devman_bot:v2
 ```
 
-10. При запуске контейнера таким способо нужно передать свои переменные 
+10. При запуске контейнера таким способом нужно передать свои переменные 
     окружения:
 
 ```python
 sudo docker run -d --restart always 
 -e DEVMAN_TOKEN='33811728b3925fac31e3f92d7b9fc00000000' 
 -e TOKEN_TG='5555537785:AAGfRtZdfDiWQY0AmeuA196u_z6FIg00000' 
--e TG_CHAT_ID='741200000' fenixx/devman_bot:v1
+-e TG_CHAT_ID='741200000' fenixx/devman_bot:v2
 ```
 
 ---
